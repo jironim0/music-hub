@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <>
-      <Container className="">
+      <Container>
         {/* <Navigation /> */}
         <Content categories={categories}/>
       </Container>

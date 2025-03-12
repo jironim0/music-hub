@@ -1,6 +1,10 @@
 "use client";
 
+import { prisma } from "@/prisma/db";
 import { SelectedSection } from "@/shared/components/shared/selected-section";
+import { useAppDispatch } from "@/shared/hooks/hooks";
+import { addUser } from "@/shared/store/features/userSlice";
+import axios from "axios";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import React from "react";
@@ -41,7 +45,35 @@ const testArray = [
 ];
 
 export default function FavoritePage() {
-  const isAuth = true;
+  const { data: session } = useSession();
+  let isAuth = false;
+  if (session) {
+    isAuth = true;
+  }
+
+  const dispatch = useAppDispatch()
+
+  const [userData, setUserData] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/user`, {
+          params: {
+            email: session?.user?.email,
+          },
+        });
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchUserData();
+    }
+  }, [session]);
+  dispatch(addUser(userData))
 
   const handleLogin = async (email: string, password: string | number) => {
     const result = await signIn("credentials", {
@@ -70,6 +102,17 @@ export default function FavoritePage() {
   return (
     <>
       {isAuth ? (
+        <div className="flex-col">
+          {/* select genre */}
+          <div></div>
+          {/* select section */}
+          <div className="gap-[25px] flex p-[50px]">
+            {testArray.map((item, index) => (
+              <SelectedSection key={index} items={item} />
+            ))}
+          </div>
+        </div>
+      ) : (
         <div className="text-white mx-auto pt-[200px]">
           <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
             <span className="flex flex-col">
@@ -119,17 +162,6 @@ export default function FavoritePage() {
               Вход
             </button>
           </form>
-        </div>
-      ) : (
-        <div className="flex-col">
-          {/* select with genre */}
-          <div></div>
-          {/* select section */}
-          <div className="gap-[25px] flex p-[50px]">
-            {testArray.map((item) => (
-              <SelectedSection items={item} />
-            ))}
-          </div>
         </div>
       )}
     </>

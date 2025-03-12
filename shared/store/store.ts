@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 import mediaReducer from "./features/mediaSlice"
-
+import userReducer from "./features/userSlice"
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
-            items: mediaReducer
+            items: mediaReducer,
+            user: userReducer
         },
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
     })

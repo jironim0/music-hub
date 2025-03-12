@@ -11,12 +11,10 @@ async function up() {
   await prisma.user.createMany({
     data: [
       {
-        fullName: "Jir0nimo",
         email: "jir0nimo@me.com",
         password: "123456",
       },
       {
-        fullName: "Nikolay",
         email: "nikolay@me.com",
         password: "234567",
       },
