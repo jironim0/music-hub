@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import AuthProvider from "@/shared/AuthProvider";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -14,16 +17,18 @@ export const metadata: Metadata = {
   description: "Created by Jir0nimo",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions); // Получаем сессию на сервере
+
   return (
     <StoreProvider>
       <html lang="en">
         <body className={montserrat.className}>
-          {children}
+          <AuthProvider session={session}>{children}</AuthProvider>
         </body>
       </html>
     </StoreProvider>

@@ -50,7 +50,6 @@ export const media = [
         filePath: "/sound/Gayle - abcdefu.mp3",
         authorId: 1,
         genreId: 1,
-        favoriteId: 1,
         categoryId: 1,
       },
       {
@@ -60,7 +59,6 @@ export const media = [
         filePath: "/sound/Emenem feat. Sia - Beautiful Pain.mp3",
         authorId: 2,
         genreId: 6,
-        favoriteId: 1,
         categoryId: 1,
       },
       {
@@ -70,7 +68,6 @@ export const media = [
         filePath: "/sound/Ascence - Beautiful Now.mp3",
         authorId: 3,
         genreId: 4,
-        favoriteId: 1,
         categoryId: 1,
       },
       {
@@ -80,7 +77,6 @@ export const media = [
         filePath: "/sound/Modern Talking - Cheri Cheri lady.mp3",
         authorId: 4,
         genreId: 2,
-        favoriteId: 1,
         categoryId: 1,
       },
       {
@@ -90,7 +86,6 @@ export const media = [
         filePath: "/sound/Nito-Onna - In My Mind (feat. LOST SIGNAL, Harddope).mp3",
         authorId: 5,
         genreId: 2,
-        favoriteId: 1,
         categoryId: 1,
       },
 ]

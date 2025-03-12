@@ -8,81 +8,80 @@ datasource db {
 }
 
 model User {
-    id Int @id @default(autoincrement())
-
-    fullName String?
-    email String @unique
-    password String @unique
-
-    favorites Favorite?
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    password  String   @unique
+    favorite Favorite?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Favorite {
-    id Int @id @default(autoincrement())
-
-    user User @relation(fields: [userId], references: [id])
-    userId Int @unique
-
-    items Media[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model Category {
-    id Int @id @default(autoincrement())
-
-    name String
-
-    items Media[]
+    id        Int      @id @default(autoincrement())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int      @unique
+    media     FavoriteMedia[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Media {
-    id Int @id @default(autoincrement())
+    id        Int      @id @default(autoincrement())
+    title     String   @unique
+    imageUrl  String
+    filePath  String   @unique
 
-    title String @unique
-    imageUrl String
-    filePath String @unique
+    author    Author   @relation(fields: [authorId], references: [id])
+    authorId  Int
 
-    author Author @relation(fields: [authorId], references: [id])
-    authorId Int
+    genre     Genre    @relation(fields: [genreId], references: [id])
+    genreId   Int
 
-    genre Genre @relation(fields: [genreId], references: [id])
-    genreId Int
-
-    favorite Favorite @relation(fields: [favoriteId], references: [id])
-    favoriteId Int
-
-    category Category @relation(fields: [categoryId], references: [id])
+    category  Category @relation(fields: [categoryId], references: [id])
     categoryId Int
+
+    favorites FavoriteMedia[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model FavoriteMedia {
+    favoriteId Int
+    mediaId    Int
+    favorite   Favorite @relation(fields: [favoriteId], references: [id])
+    media      Media    @relation(fields: [mediaId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([favoriteId, mediaId])
+}
+
+model Category {
+    id        Int      @id @default(autoincrement())
+    name      String
+    items     Media[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Genre {
-    id Int @id @default(autoincrement())
-
-    name String
-
-    items Media[]
+    id        Int      @id @default(autoincrement())
+    name      String
+    items     Media[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
 model Author {
-    id Int @id @default(autoincrement())
-
-    name String
-
-    items Media[]
+    id        Int      @id @default(autoincrement())
+    name      String
+    items     Media[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

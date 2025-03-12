@@ -30,8 +30,6 @@ export const PlayerButtonGroup: React.FC<Props> = ({
         }
       };
     
-    
-    
       const nextSong = () => {
         stop();
         setIsPlaying(false);

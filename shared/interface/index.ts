@@ -5,7 +5,6 @@ export type Media = {
     filePath: string;
     authorId: number;
     genreId: number;
-    favoriteId: number;
     categoryId: number;
     createdAt: Date;
     updatedAt: Date;

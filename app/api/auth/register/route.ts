@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    const { email, password } = await req.json(); // Получаем данные из запроса
+    const { email, password } = await req.json();
 
     try {
         const existingUser = await prisma.user.findUnique({
@@ -22,6 +22,9 @@ export async function POST(req: Request) {
             data: {
                 email,
                 password: hashedPassword,
+                favorite: {
+                    create: {}
+                }
             }
         });
 
