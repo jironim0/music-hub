@@ -10,7 +10,7 @@ export async function POST (req: Request){
         const existFavorite = await prisma.favoriteMedia.findFirst({
             where: {
                 favoriteId: parseInt(userId),
-                mediaId: parseInt(mediaId)
+                mediaId: parseInt(mediaId),
             }
         })
         console.log('error number 1', existFavorite)

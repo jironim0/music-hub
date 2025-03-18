@@ -14,7 +14,10 @@ interface Props {
 export const PlayerLanding: React.FC<Props> = () => {
   const media = useAppSelector((state) => state.items.media);
 
-
+  const exiteHandler = () => {
+    signOut()
+    localStorage.clear()
+  }
 
   if (media.length === 0) {
     return (
@@ -28,7 +31,7 @@ export const PlayerLanding: React.FC<Props> = () => {
             className="rounded-[15px]"
           />
         </div>
-        <div onClick={() => signOut()}>
+        <div onClick={exiteHandler}>
           <SvgExite className="w-[48px] h-[48px] fill-[#979797] cursor-pointer"/>
         </div>
       </div>
@@ -38,7 +41,7 @@ export const PlayerLanding: React.FC<Props> = () => {
   return (
     <div className="max-w-[325px] max-h-[600px] ml-[25px] mr-[25px]">
       <PlayerItem item={media[0]}/>
-      <div onClick={() => signOut()}>
+      <div onClick={exiteHandler}>
         <SvgExite className="w-[48px] h-[48px] fill-[#979797] cursor-pointer"/>
       </div>
 

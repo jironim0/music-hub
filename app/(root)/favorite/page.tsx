@@ -1,13 +1,13 @@
 "use client";
 
-import { prisma } from "@/prisma/db";
-import { SelectedSection } from "@/shared/components/shared/selected-section";
-import { useAppDispatch } from "@/shared/hooks/hooks";
-import { addUser } from "@/shared/store/features/userSlice";
-import axios from "axios";
+import { Content } from "@/shared/components/shared";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/hooks";
+import { Media } from "@/shared/interface";
+import { setFavorites } from "@/shared/store/features/favoriteSlice";
+import { addUser} from "@/shared/store/features/userSlice";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import * as Yup from "yup";
 
@@ -21,59 +21,29 @@ const ValidationSchema = Yup.object().shape({
     .matches(/(?=.*[0-9])/, "*Invalid password. Must contain one number."),
 });
 
-const testArray = [
-  [
-    {
-      id: 1,
-      title: "Title",
-      imageUrl:
-        "https://i1.sndcdn.com/artworks-ifja3I2KBZJYQRNS-IFu4iQ-t500x500.jpg",
-    },
-    {
-      id: 2,
-      title: "Title",
-      imageUrl:
-        "https://i1.sndcdn.com/artworks-ifja3I2KBZJYQRNS-IFu4iQ-t500x500.jpg",
-    },
-    {
-      id: 3,
-      title: "Title",
-      imageUrl:
-        "https://i1.sndcdn.com/artworks-ifja3I2KBZJYQRNS-IFu4iQ-t500x500.jpg",
-    },
-  ],
-];
-
 export default function FavoritePage() {
   const { data: session } = useSession();
-  let isAuth = false;
-  if (session) {
-    isAuth = true;
-  }
+  const dispatch = useAppDispatch();
+  const { favorite } = useAppSelector((state) => state.favorite);
+  const [isClient, setIsClient] = useState(false);
 
-  const dispatch = useAppDispatch()
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-  const [userData, setUserData] = React.useState(null);
-
-  React.useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/user`, {
-          params: {
-            email: session?.user?.email,
-          },
-        });
-        setUserData(response.data);
-      } catch (error) {
-        console.error('Ошибка при получении данных:', error);
+  useEffect(() => {
+    if (isClient && session?.user) {
+      const storedFavorites = localStorage.getItem("favorite");
+      if (!storedFavorites) {
+        const sessionFavorites = session.user.favorites || [];
+        localStorage.setItem("favorite", JSON.stringify(sessionFavorites));
+        dispatch(setFavorites(sessionFavorites));
+      } else {
+        const parsedFavorites = JSON.parse(storedFavorites) as Media[];
+        dispatch(setFavorites(parsedFavorites));
       }
-    };
-
-    if (session?.user?.email) {
-      fetchUserData();
     }
-  }, [session]);
-  dispatch(addUser(userData))
+  }, [session, dispatch, isClient]);
 
   const handleLogin = async (email: string, password: string | number) => {
     const result = await signIn("credentials", {
@@ -101,16 +71,9 @@ export default function FavoritePage() {
 
   return (
     <>
-      {isAuth ? (
+      {session ? (
         <div className="flex-col">
-          {/* select genre */}
-          <div></div>
-          {/* select section */}
-          <div className="gap-[25px] flex p-[50px]">
-            {testArray.map((item, index) => (
-              <SelectedSection key={index} items={item} />
-            ))}
-          </div>
+          <Content mediaFromFavoritePage={favorite} />
         </div>
       ) : (
         <div className="text-white mx-auto pt-[200px]">

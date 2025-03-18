@@ -7,24 +7,43 @@ import { SelectedSection } from "./selected-section";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hooks";
 import { addMedia } from "@/shared/store/features/mediaSlice";
 import { Media } from "@/shared/interface";
+import axios from "axios";
 
-export type CategoryWithMedia = {
-  createdAt: Date;
+export interface Category {
   id: number;
-  items: Media[]
   name: string;
-  updatedAt: Date;
+}
+
+interface CategoryWithMedia extends Category {
+  items: Media[];
 }
 
 interface Props {
-  categories: CategoryWithMedia[];
+  mediaFromFavoritePage?: Media[];
   className?: string;
 }
 
-export const Content: React.FC<Props> = ({ categories, className }) => {
+export const Content: React.FC<Props> = ({
+  mediaFromFavoritePage,
+  className,
+}) => {
+  const dispatch = useAppDispatch();
+  const stop = useAppSelector((state) => state.items.stop);
   const [selectedCategory, setSelectedCategory] = React.useState<number>(1);
-  const dispatch = useAppDispatch()
-  const stop = useAppSelector(state => state.items.stop)
+  const [categories, setCategories] = React.useState<CategoryWithMedia[]>([]);
+  
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("/api/categories");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Ошибка при загрузке категорий:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleClick = (item: Media) => {
     stop();
@@ -35,23 +54,34 @@ export const Content: React.FC<Props> = ({ categories, className }) => {
     setSelectedCategory(id);
   };
 
-
   return (
     <div className={cn("w-[949px] h-screen rounded-tr-[10px]", className)}>
       <SelectButton
         categories={categories}
         clickSelectedButtonHandler={clickSelectedButtonHandler}
       />
-
-      <div className="max-w-[850px] h-fit mx-auto mt-[25px] flex flex-wrap gap-[50px]">
-        {categories.map((category, index) =>
-          <SelectedSection 
-          key={index} 
-          items={category.items.filter((obj) => obj.categoryId === selectedCategory)}
-          handleClick={handleClick}
+      {mediaFromFavoritePage ? (
+        <div className="max-w-[850px] h-fit mx-auto mt-[25px] flex flex-wrap gap-[50px]">
+          <SelectedSection
+            items={mediaFromFavoritePage.filter(
+              (obj) => obj.categoryId === selectedCategory
+            )}
+            handleClick={handleClick}
           />
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="max-w-[850px] h-fit mx-auto mt-[25px] flex flex-wrap gap-[50px]">
+          {categories.map((category, index) => (
+            <SelectedSection
+              key={index}
+              items={category.items.filter(
+                (obj) => obj.categoryId === selectedCategory
+              )}
+              handleClick={handleClick}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

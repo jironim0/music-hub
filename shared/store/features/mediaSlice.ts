@@ -1,4 +1,4 @@
-import { Media } from "@/shared/components/shared/selected-section"
+import { Media } from "@prisma/client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface MediaState {

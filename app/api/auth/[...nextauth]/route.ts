@@ -22,15 +22,26 @@ export const authOptions: NextAuthOptions = {
                         where: { email: credentials.email }
                     });
                     console.log('Поиск пользователя:', user);
-            
+
                     if (user) {
                         const isPasswordValid = bcrypt.compareSync(credentials.password, user.password);
                         console.log('Проверка пароля для пользователя:', user.email, 'Результат:', isPasswordValid);
-            
+
+                        const favorites = await prisma.media.findMany({
+                            where: {
+                                favorites: {
+                                    some: {
+                                        favoriteId: user.id,
+                                    }
+                                }
+                            }
+                        })
+
                         if (isPasswordValid) {
                             return {
                                 id: user.id.toString(),
                                 email: user.email,
+                                favorites,
                             };
                         } else {
                             console.log('Неверный пароль для email:', credentials.email);
@@ -45,16 +56,18 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({token, user}){
-            if(user){
+            if (user) {
                 token.id = user.id;
                 token.email = user.email
+                token.favorites = user.favorites;
             }
-            return token
+            return token;
         },
-        async session({session, token}) {
-            let email = session.user?.email
-            email = token.email;
-            return session
+        async session({session, token, user}) {
+            session.user.id = token.id,
+            session.user.email = token.email,
+            session.user.favorites = token.favorites
+            return session;
         },
     },
     secret: process.env.NEXTAUTH_SECRET,

@@ -2,14 +2,10 @@
 
 import { cn } from "@/shared/lib/utils";
 import React from "react";
-import { SvgPlus } from "../ui/svg";
-import Image from "next/image";
 import { NavBar } from "./navbar";
-import { AudioPlayer } from "./audio-player";
 import { PlayerLanding } from "./audio-landing";
-import { useAppDispatch, useAppSelector } from "@/shared/hooks/hooks";
-import useSound from "use-sound";
-import { setStop } from "@/shared/store/features/mediaSlice";
+import { useAppSelector } from "@/shared/hooks/hooks";
+
 
 interface Props {
   className?: string;

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 
 export interface UserState {
     user: {
@@ -7,7 +7,7 @@ export interface UserState {
         password: string;
         createdAt: Date;
         updatedAt: Date;
-    }
+    },
 }
 
 const initialState: UserState = {

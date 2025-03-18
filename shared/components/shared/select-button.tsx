@@ -14,7 +14,6 @@ interface Props {
 
 export const SelectButton: React.FC<Props> = ({
   categories,
-    className,
     clickSelectedButtonHandler
 }) => {
 

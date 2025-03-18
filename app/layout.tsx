@@ -13,7 +13,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "My Spotify",
+  title: "Music-hub",
   description: "Created by Jir0nimo",
 };
 
@@ -23,6 +23,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions); // Получаем сессию на сервере
+
 
   return (
     <StoreProvider>
