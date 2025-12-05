@@ -26,7 +26,8 @@ export async function POST (req: Request){
         })
 
         return NextResponse.json({message: 'Отлично, все работает!'}, {status: 200})
-    } catch (error: unknown) {
+    } catch (error) {
+        console.log('EEE:',error)
         return NextResponse.json({ message: "Неизвестаня ошибка..." }, { status: 500 });
     }
 }

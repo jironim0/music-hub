@@ -2,7 +2,7 @@ import { prisma } from "@/prisma/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get('id'); // Получаем id из query-строки
+  const id = req.nextUrl.searchParams.get('id');
   console.log('Запрос получен', id);
 
   if (!id) {

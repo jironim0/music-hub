@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Home from "./page";
 import { Navigation } from "@/shared/components/shared";
 
 export const metadata: Metadata = {

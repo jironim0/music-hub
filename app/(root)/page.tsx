@@ -1,4 +1,4 @@
-import { Container, Content, Navigation } from "@/shared/components/shared";
+import { Container, Content } from "@/shared/components/shared";
 import React from "react";
 
 

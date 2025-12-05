@@ -12,7 +12,6 @@ export const SoundMikser: React.FC<Props> = ({ duration, sound }) => {
   const [seconds, setSeconds] = React.useState(0);
   const defaultDuration = duration || 0;
 
-  // Используем реф для хранения текущего времени
   const timeRef = React.useRef(seconds);
 
   React.useEffect(() => {

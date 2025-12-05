@@ -4,7 +4,6 @@ import { Content } from "@/shared/components/shared";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hooks";
 import { Media } from "@/shared/interface";
 import { setFavorites } from "@/shared/store/features/favoriteSlice";
-import { addUser} from "@/shared/store/features/userSlice";
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
