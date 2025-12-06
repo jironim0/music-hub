@@ -9,7 +9,7 @@ export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode
+  modal?: React.ReactNode
 }>) {
   return (
     <main className="mx-auto flex justify-start max-w-[1274px] h-[1000px] bg-[#101010] mt-[20px] rounded-t-[10px]">
