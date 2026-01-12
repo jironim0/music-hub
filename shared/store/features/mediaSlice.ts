@@ -1,4 +1,4 @@
-import { Media } from "@prisma/client";
+import { Media } from "@/shared/interface";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface MediaState {

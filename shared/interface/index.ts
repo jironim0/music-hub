@@ -6,8 +6,8 @@ export type Media = {
     authorId: number;
     genreId: number;
     categoryId: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
   };
 
   

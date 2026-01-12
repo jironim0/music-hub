@@ -1,5 +1,5 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,81 +8,70 @@ datasource db {
 }
 
 model User {
-    id        Int      @id @default(autoincrement())
-    email     String   @unique
-    password  String   @unique
-    favorite Favorite?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  favorite  Favorite?
 }
 
 model Favorite {
-    id        Int      @id @default(autoincrement())
-    user      User     @relation(fields: [userId], references: [id])
-    userId    Int      @unique
-    media     FavoriteMedia[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int             @id @default(autoincrement())
+  userId    Int             @unique
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  user      User            @relation(fields: [userId], references: [id])
+  media     FavoriteMedia[]
 }
 
 model Media {
-    id        Int      @id @default(autoincrement())
-    title     String   @unique
-    imageUrl  String
-    filePath  String   @unique
-
-    author    Author   @relation(fields: [authorId], references: [id])
-    authorId  Int
-
-    genre     Genre    @relation(fields: [genreId], references: [id])
-    genreId   Int
-
-    category  Category @relation(fields: [categoryId], references: [id])
-    categoryId Int
-
-    favorites FavoriteMedia[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id         Int             @id @default(autoincrement())
+  title      String          @unique
+  imageUrl   String
+  filePath   String          @unique
+  authorId   Int
+  genreId    Int
+  categoryId Int
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  favorites  FavoriteMedia[]
+  author     Author          @relation(fields: [authorId], references: [id])
+  category   Category        @relation(fields: [categoryId], references: [id])
+  genre      Genre           @relation(fields: [genreId], references: [id])
 }
 
 model FavoriteMedia {
-    favoriteId Int
-    mediaId    Int
-    favorite   Favorite @relation(fields: [favoriteId], references: [id])
-    media      Media    @relation(fields: [mediaId], references: [id])
+  favoriteId Int
+  mediaId    Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  favorite   Favorite @relation(fields: [favoriteId], references: [id])
+  media      Media    @relation(fields: [mediaId], references: [id])
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@id([favoriteId, mediaId])
+  @@id([favoriteId, mediaId])
 }
 
 model Category {
-    id        Int      @id @default(autoincrement())
-    name      String
-    items     Media[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Media[]
 }
 
 model Genre {
-    id        Int      @id @default(autoincrement())
-    name      String
-    items     Media[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Media[]
 }
 
 model Author {
-    id        Int      @id @default(autoincrement())
-    name      String
-    items     Media[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  items     Media[]
 }

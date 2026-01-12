@@ -30,7 +30,24 @@ export const Content: React.FC<Props> = ({
   const dispatch = useAppDispatch();
   const stop = useAppSelector((state) => state.items.stop);
   const [selectedCategory, setSelectedCategory] = React.useState<number>(1);
-  const [categories, setCategories] = React.useState<CategoryWithMedia[]>([]);
+  // const [categories, setCategories] = React.useState<CategoryWithMedia[]>([]);
+  const [categories, setCategories] = React.useState<CategoryWithMedia[]>([
+  {
+    id: 1,
+    name: "Test",
+    items: [
+      {
+        id: 1,
+        title: "Test Track",
+        imageUrl: "https://example.com/image.jpg",
+        filePath: "/test.mp3",
+        authorId: 1,
+        genreId: 1,
+        categoryId: 1
+      }
+    ]
+  }
+  ]);
   
   React.useEffect(() => {
     const fetchCategories = async () => {
