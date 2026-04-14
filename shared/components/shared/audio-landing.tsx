@@ -6,13 +6,14 @@ import { useAppSelector } from "@/shared/hooks/hooks";
 import { PlayerItem } from "./player-item";
 import { SvgExite } from "../ui/svg";
 import { signOut } from "next-auth/react";
+import { Media } from "@/shared/interface";
 
 interface Props {
   className?: string;
 }
 
 export const PlayerLanding: React.FC<Props> = () => {
-  const media = useAppSelector((state) => state.items.media);
+  const media: Media[] = useAppSelector((state) => state.items.media);
 
   const exiteHandler = () => {
     signOut()
@@ -38,9 +39,10 @@ export const PlayerLanding: React.FC<Props> = () => {
     );
   }
 
+
   return (
     <div className="max-w-[325px] max-h-[600px] ml-[25px] mr-[25px]">
-      <PlayerItem item={media[0]}/>
+      <PlayerItem item={{...media[0], createdAt: media[0].createdAt!, updatedAt: media[0].updatedAt!}}/>
       <div onClick={exiteHandler}>
         <SvgExite className="w-[48px] h-[48px] fill-[#979797] cursor-pointer"/>
       </div>

@@ -30,7 +30,7 @@ export const PlayerItem: React.FC<PlayerItemProps> = ({ item }) => {
       userId: session?.user.id,
       mediaId: item.id,
     });
-    dispatch(addFavorite(item)); // Передаем один объект Media
+    dispatch(addFavorite(item));
   };
 
   return (

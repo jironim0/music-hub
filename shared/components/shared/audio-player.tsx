@@ -1,5 +1,4 @@
 import React from "react";
-import useSound from "use-sound";
 import { useAppSelector } from "@/shared/hooks/hooks";
 import { SoundMikser } from "./sound-mikser";
 import { PlayerButtonGroup } from "./player-button-group";
